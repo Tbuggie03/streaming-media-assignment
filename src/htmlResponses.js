@@ -1,14 +1,14 @@
-const { error } = require('console');
 const fs = require('fs');
+const path = require('path');
 
 const getPage = (request, response, page) => {
     const filePath = path.resolve(__dirname, `../client/${page}.html`);
     fs.readFile(filePath, (err, data) => {
         if (err) {
-            response.writeHead(404);
+            response.writeHead(404, {'Content-Type': 'text/plain'});
             return response.end('Page not found');
         }
-        response.writeHead(200, { 'Content-Type': 'test/html' });
+        response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end(data);
     })
 };
