@@ -4,7 +4,7 @@ const path = require('path');
 const getParty = (request, response) => {
     const file = path.resolve(__dirname, '../client/party.mp4');
 
-    fs.stat(file, (err, start) => {
+    fs.stat(file, (err, stats) => {
         if (err) {
             if (err.code === 'ENOENT') {
                 response.writeHead(404);
@@ -23,7 +23,7 @@ const getParty = (request, response) => {
         let start = parseInt(positions[0], 10);
 
         const total = stats.size;
-        const end = position[1] ? parseInt(positions[1], 10) : total - 1;
+        const end = positions[1] ? parseInt(positions[1], 10) : total - 1;
 
         if (start > end) {
             start = end - 1;
