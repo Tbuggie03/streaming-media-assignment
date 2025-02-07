@@ -1,11 +1,25 @@
+const { error } = require('console');
 const fs = require('fs');
 
-const index = fs.readFileSync(`${__dirname}/../client/client.html`);
-
-const getIndex = (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'test/html' });
-  response.write(index);
-  response.end();
+const getPage = (request, response, page) => {
+    const filePath = path.resolve(__dirname, `../client/${page}.html`);
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            response.writeHead(404);
+            return response.end('Page not found');
+        }
+        response.writeHead(200, { 'Content-Type': 'test/html' });
+        response.end(data);
+    })
 };
 
-module.exports.getIndex = getIndex;
+const getClient = (request, response) => getPage(request, response, 'client');
+const getClient2 = (request, response) => getPage(request, response, 'client2');
+const getClient3 = (request, response) => getPage(request, response, 'client3');
+
+
+module.exports = {
+    getClient,
+    getClient2,
+    getClient3,
+};
